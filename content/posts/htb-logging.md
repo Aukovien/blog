@@ -20,7 +20,7 @@ A Windows domain controller running a fairly realistic enterprise configuration.
 The attack surface involves services you'd expect to find in an actual AD environment
 rather than contrived CTF gimmicks, which is what made it interesting.
 
-```
+```text
 OS:         Windows Server 2019
 Domain:     [redacted].htb
 Difficulty: Medium
@@ -66,7 +66,7 @@ The techniques this box touches on, without getting into specifics:
 
 ## Tools
 
-```
+```text
 nmap · netexec · smbclient · bloodhound-python
 impacket · certipy-ad · evil-winrm · msfvenom
 krbrelayx · stunnel · wsuks · openssl
