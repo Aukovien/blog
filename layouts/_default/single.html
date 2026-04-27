@@ -1,0 +1,95 @@
+{{- define "main" }}
+
+<div id="reading-progress"></div>
+
+<div class="post-with-toc">
+
+  <article class="post-single">
+    <header class="post-header">
+      {{- partial "breadcrumbs.html" . }}
+      <h1 class="post-title">{{ .Title }}</h1>
+      {{- if not (.Param "hideMeta") }}
+      <div class="post-meta">
+        {{- partial "post_meta.html" . -}}
+        {{- partial "translation_list.html" . -}}
+        {{- partial "edit_post.html" . -}}
+        {{- partial "post_canonical.html" . -}}
+      </div>
+      {{- end }}
+    </header>
+
+    {{- if .Content }}
+    <div class="post-content">
+      {{- if not (.Param "disableAnchoredHeadings") }}
+      {{- partial "anchored_headings.html" .Content -}}
+      {{- else }}{{ .Content }}{{ end }}
+    </div>
+    {{- end }}
+
+    <footer class="post-footer">
+      {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
+      {{- with ($.GetTerms $tags) }}
+      <ul class="post-tags">
+        {{- range . }}
+        <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+        {{- end }}
+      </ul>
+      {{- end }}
+      {{- if (.Param "ShowPostNavLinks") }}
+      {{- partial "post_nav_links.html" . }}
+      {{- end }}
+    </footer>
+  </article>
+
+  {{- if (and (.Param "ShowToc") (not (.Param "disableToc"))) }}
+  <aside class="toc-sidebar">
+    <div class="toc-label">on this page</div>
+    {{- .TableOfContents }}
+  </aside>
+  {{- end }}
+
+</div>
+
+<script>
+(function () {
+  // reading progress
+  const bar = document.getElementById('reading-progress');
+  function updateProgress() {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // replace copy button text with icon (runs after PaperMod adds buttons)
+  function patchCopyButtons() {
+    document.querySelectorAll('.copy-code-button').forEach(btn => {
+      btn.textContent = '';
+      btn.setAttribute('aria-label', 'Copy code');
+    });
+  }
+  // run immediately and again after a tick in case PaperMod is late
+  patchCopyButtons();
+  setTimeout(patchCopyButtons, 300);
+
+  // active TOC on scroll
+  const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+  const tocLinks  = document.querySelectorAll('.toc-sidebar a');
+  if (headings.length && tocLinks.length) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          tocLinks.forEach(a => {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    headings.forEach(h => obs.observe(h));
+  }
+})();
+</script>
+
+{{- end }}
