@@ -293,7 +293,6 @@ pre:not(.highlight pre) {
   border: 1px solid var(--border) !important;
   border-radius: 6px !important;
   position: relative;
-  font-size: 0.85em !important;
 }
 
 /* pre INSIDE .highlight — strip the second border */
