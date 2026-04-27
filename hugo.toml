@@ -2,8 +2,10 @@ baseURL = "https://blog.aukovien.com/"
 languageCode = "en-us"
 title = "Aukovien // Writing"
 theme = "PaperMod"
-paginate = 10
 summaryLength = 20
+
+[pagination]
+  pagerSize = 10
 
 enableRobotsTXT = true
 buildDrafts = false
