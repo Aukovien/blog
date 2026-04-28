@@ -22,7 +22,7 @@ rather than contrived CTF gimmicks, which is what made it interesting.
 
 ```text
 OS:         Windows Server 2019
-Domain:     [redacted].htb
+Domain:     logging.htb
 Difficulty: Medium
 ```
 
@@ -33,7 +33,7 @@ Difficulty: Medium
 Starting with a full TCP scan to map the full port surface before going narrow:
 
 ```bash
-nmap -p- -sC -sV -T5 --open -oA scan/tcp_detailed <IP>
+nmap -p- -sCV -T5 --open -oA scan/tcp_detailed <IP>
 ```
 
 The open ports tell you immediately this is a domain controller:
@@ -47,7 +47,7 @@ The open ports tell you immediately this is a domain controller:
 | 5985 | WinRM |
 | 8530 / 8531 | WSUS |
 
-The WSUS ports (8530/8531) stood out. Worth keeping in the back of your mind early.
+The WSUS ports (8530/8531) stood out. Worth keeping in the back of your mind.
 
 Added the DC to `/etc/hosts` with its hostname and domain before proceeding,
 since many AD tools resolve by name rather than IP.
@@ -66,14 +66,13 @@ The techniques this box touches on, without getting into specifics:
 
 ## Tools
 
-```text
-nmap · netexec · smbclient · bloodhound-python
-impacket · certipy-ad · evil-winrm · msfvenom
-krbrelayx · stunnel · wsuks · openssl
-```
+
+`nmap` `netexec` `smbclient` `bloodhound-python`
+`impacket` `certipy-ad` `evil-winrm` `msfvenom`
+`krbrelayx` `stunnel` `wsuks` `openssl`
+
 
 ---
 
 *Full writeup with the complete attack chain will be posted once the machine
-retires. If you're working through it now -- the WSUS ports at the start are
-not a red herring.*
+retires.*
