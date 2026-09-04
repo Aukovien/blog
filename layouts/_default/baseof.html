@@ -1,0 +1,43 @@
+{{- /*
+  Override of themes/PaperMod/layouts/_default/baseof.html (PaperMod @ e457685).
+
+  Only two things differ from upstream; keep it that way so re-syncing after a
+  theme bump stays a two-line diff:
+    1. a skip link as the first focusable element in <body>
+    2. id="content" on <main>, as that link's target
+
+  Everything else is verbatim. Diff against the theme file when bumping.
+*/ -}}
+
+{{- if lt hugo.Version "0.146.0" }}
+{{- errorf "=> hugo v0.146.0 or greater is required for hugo-PaperMod to build " }}
+{{- end -}}
+
+<!DOCTYPE html>
+{{- $theme := site.Params.defaultTheme | default "auto" }}
+{{- if eq $theme "dark" }}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="dark">
+{{- else if eq $theme "light" }}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="light">
+{{- else }}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="auto">
+{{- end }}
+
+<head>
+    {{- partial "head.html" . }}
+</head>
+
+{{- if (or (ne .Kind `page` ) (eq .Layout `archives`) (eq .Layout `search`)) }}
+<body class="list" id="top">
+{{- else }}
+<body id="top">
+{{- end }}
+    <a class="skip-link" href="#content">Skip to content</a>
+    {{ partialCached "header.html" . .Page -}}
+    <main class="main" id="content">
+        {{- block "main" . }}{{ end }}
+    </main>
+    {{ partialCached "footer.html" . .Layout .Kind (.Param "hideFooter") (.Param "ShowCodeCopyButtons") -}}
+</body>
+
+</html>

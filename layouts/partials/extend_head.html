@@ -1,3 +1,20 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+{{- /* Scalable icon for modern browsers; PaperMod's head emits the .ico and
+       PNG fallbacks from params.assets. */ -}}
+<link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | absURL }}">
+
+{{- /*
+  Preload the three faces that paint above the fold: nav and meta (mono),
+  post title (serif), body copy (sans). Without these the browser would not
+  discover them until it had parsed the stylesheet.
+
+  The @font-face rules themselves live in assets/css/extended/fonts.css so
+  they ride along in the bundled stylesheet rather than being re-inlined into
+  every page. crossorigin is required on font preloads even same-origin,
+  since fonts are always fetched in CORS mode.
+
+  DM Sans 700 and Lora italic are deliberately not preloaded — they appear
+  further into the page and can load on demand.
+*/ -}}
+{{- range slice "dm-sans-400" "lora-400" "jetbrains-mono-400" }}
+<link rel="preload" href="{{ printf "fonts/%s.woff2" . | absURL }}" as="font" type="font/woff2" crossorigin>
+{{- end }}

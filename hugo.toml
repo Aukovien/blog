@@ -21,8 +21,10 @@ buildFuture = false
   description = "Writing on security, reverse engineering, and tooling."
   keywords = ["security", "ctf", "reverse engineering", "osint"]
   DateFormat = "Jan 2006"
-  defaultTheme = "dark"
-  disableThemeToggle = true
+  # "auto" honours prefers-color-scheme; PaperMod's inline head script resolves
+  # it to data-theme before first paint, so there is no flash.
+  defaultTheme = "auto"
+  disableThemeToggle = false
   ShowReadingTime = true
   ShowShareButtons = false
   ShowPostNavLinks = true
@@ -32,6 +34,15 @@ buildFuture = false
   hidemeta = false
   hideSummary = false
   comments = false
+
+  [params.assets]
+    favicon = "/favicon.ico"
+    favicon16x16 = "/favicon-16x16.png"
+    favicon32x32 = "/favicon-32x32.png"
+    apple_touch_icon = "/apple-touch-icon.png"
+    safari_pinned_tab = "/safari-pinned-tab.svg"
+    theme_color = "#0c130c"
+    msapplication_TileColor = "#0c130c"
 
   [params.homeInfoParams]
     Title = "writing"
@@ -62,7 +73,12 @@ buildFuture = false
     codeFences = true
     guessSyntax = true
     lineNos = false
-    style = "monokai"
+    # No `style` here on purpose: with noClasses = false Chroma emits classes
+    # and the colours come from CSS, not from a named Chroma style. The token
+    # palette lives in assets/css/extended/custom.css.
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  # JSON was building an ~18KB Fuse.js index for a search page that does not
+  # exist. Re-add "JSON" here alongside a content/search.md if search is ever
+  # wanted.
+  home = ["HTML", "RSS"]
