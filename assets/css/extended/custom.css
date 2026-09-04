@@ -8,6 +8,11 @@
    remapped to our tokens in one place below, so the theme's ~57 .md-content
    rules inherit this palette without needing !important on every line.
 
+   Grounds are the blog's own — forest dark, sage light — but the token
+   roles follow aukovien.com's design guide: --ak-text is primary prose,
+   --ak-text3 is metadata only, --ak-link is structural, --ak-accent is the
+   identity accent. Accents are carried over from that palette directly.
+
    Every colour pair here is verified against WCAG 2.1 AA (4.5:1 for text,
    3:1 for non-text indicators) in both themes.
 ───────────────────────────────────────────── */
@@ -17,37 +22,36 @@
    ═══════════════════════════════════════════ */
 
 :root {
-  /* surfaces — --bg / --sunk / --raised / --line-mid on aukovien.com */
-  --ak-bg: #f2f2ec;
-  --ak-bg2: #e7e8df;
-  --ak-surface: #fafaf5;
-  --ak-border: #d6d8cb;
+  /* surfaces — sage paper, same hue family as the dark forest ground */
+  --ak-bg: #eef4f0;
+  --ak-bg2: #e2ece5;
+  --ak-surface: #f7fbf8;
+  --ak-border: #cadacf;
 
-  /* ink — --fg / --faded / --faded-dim */
-  --ak-text: #181b15;   /* 15.49:1 */
-  --ak-text2: #4e5347;  /*  7.05:1 — body copy */
-  --ak-text3: #63685a;  /*  5.11:1 — meta, footer, TOC */
+  /* ink — roles per aukovien.com's guide: fg = prose, faded-dim = metadata */
+  --ak-text: #181b15;   /* 15.61:1 */
+  --ak-text2: #414a3b;  /*  8.31:1 — body copy */
+  --ak-text3: #576050;  /*  5.90:1 — meta, footer, TOC */
 
-  /* accents — --amber / --amber-warm / --rust */
-  --ak-link: #1d5c4a;       /* 6.97:1 */
-  --ak-link-hover: #124134;
-  --ak-underline: #658f81;  /* 3.22:1 — muted --amber, not the hairline colour */
-  --ak-accent: #8a5a0c;     /* 5.27:1 */
-  --ak-code-ink: #1d5c4a;   /* 6.34:1 against --ak-bg2 */
+  /* accents */
+  --ak-link: #1d5c4a;       /* 7.02:1 */
+  --ak-link-hover: #124134;  /* 10.28:1 */
+  --ak-underline: #649082;  /* 3.22:1 — muted link, not the hairline colour */
+  --ak-accent: #7d5410;     /* 5.98:1 */
+  --ak-code-ink: #1d5c4a;   /* 6.47:1 against --ak-bg2 */
   --ak-focus: #124134;
 
   /* syntax — ratios against --ak-bg2 */
-  --ak-syn-comment: #5a6353;  /* 5.08:1 */
-  --ak-syn-keyword: #8a5a0c;  /* 4.79:1 */
-  --ak-syn-string: #1d5c4a;   /* 6.34:1 */
-  --ak-syn-func: #2a5f7a;     /* 5.64:1 */
-  --ak-syn-number: #8a5320;   /* 5.09:1 */
-  --ak-syn-builtin: #15665a;  /* 5.52:1 */
-  --ak-syn-punct: #4e5347;    /* 6.41:1 */
-  --ak-syn-error: #a13a33;    /* 5.37:1 */
-  --ak-syn-add: #22682f;      /* 5.50:1 */
-  --ak-syn-del: #a13a33;      /* 5.37:1 */
-
+  --ak-syn-comment: #57604f;  /* 5.44:1 */
+  --ak-syn-keyword: #7d5410;  /* 5.52:1 */
+  --ak-syn-string: #1d5c4a;   /* 6.47:1 */
+  --ak-syn-func: #2a5f7a;     /* 5.76:1 */
+  --ak-syn-number: #814d1d;   /* 5.76:1 */
+  --ak-syn-builtin: #15665a;  /* 5.64:1 */
+  --ak-syn-punct: #414a3b;    /* 7.66:1 */
+  --ak-syn-error: #9c342d;    /* 5.90:1 */
+  --ak-syn-add: #1e6229;      /* 6.13:1 */
+  --ak-syn-del: #9c342d;      /* 5.90:1 */
   /* type */
   --ak-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono",
     Menlo, Consolas, monospace;
@@ -65,32 +69,32 @@
    explicit light choice still wins, and so no-JS visitors still get dark. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ak-bg: #12160f;
-    --ak-bg2: #0d100b;
-    --ak-surface: #1a2016;
-    --ak-border: #29321f;
+    --ak-bg: #16251a;
+    --ak-bg2: #0e1912;
+    --ak-surface: #1f3024;
+    --ak-border: #2f4936;
 
-    --ak-text: #e6e8de;   /* 14.78:1 */
-    --ak-text2: #bcc2b2;  /* 10.02:1 */
-    --ak-text3: #9aa18e;  /*  6.85:1 */
+    --ak-text: #e6e8de;   /* 12.91:1 */
+    --ak-text2: #bcc2b2;  /*  8.75:1 */
+    --ak-text3: #9aa18e;  /*  5.99:1 */
 
-    --ak-link: #74c6ab;       /* 9.07:1 */
-    --ak-link-hover: #9bd8c3;
-    --ak-underline: #44705f;  /* 3.25:1 */
-    --ak-accent: #eabc4e;     /* 10.29:1 */
-    --ak-code-ink: #74c6ab;   /* 9.50:1 against --ak-bg2 */
+    --ak-link: #74c6ab;       /* 7.92:1 */
+    --ak-link-hover: #9bd8c3;  /* 9.90:1 */
+    --ak-underline: #487a67;  /* 3.24:1 */
+    --ak-accent: #eabc4e;     /* 8.98:1 */
+    --ak-code-ink: #74c6ab;   /* 8.92:1 against --ak-bg2 */
     --ak-focus: #9bd8c3;
 
-    --ak-syn-comment: #7d8a76;  /*  5.26:1 */
-    --ak-syn-keyword: #eabc4e;  /* 10.77:1 */
-    --ak-syn-string: #74c6ab;   /*  9.50:1 */
-    --ak-syn-func: #b9dccd;     /* 12.94:1 */
-    --ak-syn-number: #e3cf95;   /* 12.43:1 */
-    --ak-syn-builtin: #9bd8c3;  /* 11.86:1 */
-    --ak-syn-punct: #bcc2b2;    /* 10.49:1 */
-    --ak-syn-error: #e59a94;    /*  8.56:1 */
-    --ak-syn-add: #8fd39a;      /* 10.90:1 */
-    --ak-syn-del: #e59a94;      /*  8.56:1 */
+    --ak-syn-comment: #7d8a76;  /*  4.95:1 */
+    --ak-syn-keyword: #eabc4e;  /* 10.12:1 */
+    --ak-syn-string: #74c6ab;   /*  8.92:1 */
+    --ak-syn-func: #b9dccd;     /* 12.16:1 */
+    --ak-syn-number: #e3cf95;   /* 11.68:1 */
+    --ak-syn-builtin: #9bd8c3;  /* 11.15:1 */
+    --ak-syn-punct: #bcc2b2;    /*  9.86:1 */
+    --ak-syn-error: #e59a94;    /*  8.04:1 */
+    --ak-syn-add: #8fd39a;      /* 10.25:1 */
+    --ak-syn-del: #e59a94;      /*  8.04:1 */
 
     color-scheme: dark;
   }
@@ -99,32 +103,32 @@
 /* Explicit dark choice. Same specificity as the block above but later in
    source order, so the toggle wins in both directions. */
 :root[data-theme="dark"] {
-  --ak-bg: #12160f;
-  --ak-bg2: #0d100b;
-  --ak-surface: #1a2016;
-  --ak-border: #29321f;
+  --ak-bg: #16251a;
+  --ak-bg2: #0e1912;
+  --ak-surface: #1f3024;
+  --ak-border: #2f4936;
 
-  --ak-text: #e6e8de;   /* 14.78:1 */
-  --ak-text2: #bcc2b2;  /* 10.02:1 */
-  --ak-text3: #9aa18e;  /*  6.85:1 */
+  --ak-text: #e6e8de;   /* 12.91:1 */
+  --ak-text2: #bcc2b2;  /*  8.75:1 */
+  --ak-text3: #9aa18e;  /*  5.99:1 */
 
-  --ak-link: #74c6ab;       /* 9.07:1 */
-  --ak-link-hover: #9bd8c3;
-  --ak-underline: #44705f;  /* 3.25:1 */
-  --ak-accent: #eabc4e;     /* 10.29:1 */
-  --ak-code-ink: #74c6ab;   /* 9.50:1 against --ak-bg2 */
+  --ak-link: #74c6ab;       /* 7.92:1 */
+  --ak-link-hover: #9bd8c3;  /* 9.90:1 */
+  --ak-underline: #487a67;  /* 3.24:1 */
+  --ak-accent: #eabc4e;     /* 8.98:1 */
+  --ak-code-ink: #74c6ab;   /* 8.92:1 against --ak-bg2 */
   --ak-focus: #9bd8c3;
 
-  --ak-syn-comment: #7d8a76;  /*  5.26:1 */
-  --ak-syn-keyword: #eabc4e;  /* 10.77:1 */
-  --ak-syn-string: #74c6ab;   /*  9.50:1 */
-  --ak-syn-func: #b9dccd;     /* 12.94:1 */
-  --ak-syn-number: #e3cf95;   /* 12.43:1 */
-  --ak-syn-builtin: #9bd8c3;  /* 11.86:1 */
-  --ak-syn-punct: #bcc2b2;    /* 10.49:1 */
-  --ak-syn-error: #e59a94;    /*  8.56:1 */
-  --ak-syn-add: #8fd39a;      /* 10.90:1 */
-  --ak-syn-del: #e59a94;      /*  8.56:1 */
+  --ak-syn-comment: #7d8a76;  /*  4.95:1 */
+  --ak-syn-keyword: #eabc4e;  /* 10.12:1 */
+  --ak-syn-string: #74c6ab;   /*  8.92:1 */
+  --ak-syn-func: #b9dccd;     /* 12.16:1 */
+  --ak-syn-number: #e3cf95;   /* 11.68:1 */
+  --ak-syn-builtin: #9bd8c3;  /* 11.15:1 */
+  --ak-syn-punct: #bcc2b2;    /*  9.86:1 */
+  --ak-syn-error: #e59a94;    /*  8.04:1 */
+  --ak-syn-add: #8fd39a;      /* 10.25:1 */
+  --ak-syn-del: #e59a94;      /*  8.04:1 */
 
   color-scheme: dark;
 }
