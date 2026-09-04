@@ -1,13 +1,38 @@
+{{- /*
+  Custom single-post layout: article + sticky TOC sidebar.
+
+  NOTE: this is a full override of themes/PaperMod/layouts/_default/single.html
+  (PaperMod @ e457685). When bumping the theme submodule, diff that file
+  against this one — a previous copy of this override silently dropped the
+  `md-content` class, which disabled ~57 theme rules on every post, including
+  the one that makes long code lines scrollable.
+
+  Deliberate differences from upstream:
+    - article + TOC wrapped in a .post-layout grid
+    - TOC rendered inline as a sidebar instead of partial "toc.html"
+    - cover, share icons and comments omitted (unused on this site)
+*/ -}}
+
 {{- define "main" }}
 
-<div id="reading-progress"></div>
+{{- $showToc := and (.Param "ShowToc") (not (.Param "disableToc")) }}
 
-<div class="post-with-toc">
+<div id="reading-progress" aria-hidden="true"></div>
+
+<div class="post-layout{{ if $showToc }} has-toc{{ end }}">
 
   <article class="post-single">
     <header class="post-header">
       {{- partial "breadcrumbs.html" . }}
-      <h1 class="post-title">{{ .Title }}</h1>
+      <h1 class="post-title entry-hint-parent">
+        {{ .Title }}
+        {{- if .Draft }}
+        <span class="entry-hint" title="Draft">(draft)</span>
+        {{- end }}
+      </h1>
+      {{- with .Description }}
+      <div class="post-description">{{ . }}</div>
+      {{- end }}
       {{- if not (.Param "hideMeta") }}
       <div class="post-meta">
         {{- partial "post_meta.html" . -}}
@@ -19,7 +44,7 @@
     </header>
 
     {{- if .Content }}
-    <div class="post-content">
+    <div class="post-content md-content">
       {{- if not (.Param "disableAnchoredHeadings") }}
       {{- partial "anchored_headings.html" .Content -}}
       {{- else }}{{ .Content }}{{ end }}
@@ -41,54 +66,106 @@
     </footer>
   </article>
 
-  {{- if (and (.Param "ShowToc") (not (.Param "disableToc"))) }}
-  <aside class="toc-sidebar">
-    <div class="toc-label">on this page</div>
-    {{- .TableOfContents }}
-  </aside>
+  {{- if $showToc }}
+  <nav class="toc-sidebar" aria-label="On this page">
+    <details class="toc-box" open>
+      <summary class="toc-label">on this page</summary>
+      {{- .TableOfContents }}
+    </details>
+  </nav>
   {{- end }}
 
 </div>
 
 <script>
 (function () {
-  // reading progress
-  const bar = document.getElementById('reading-progress');
-  function updateProgress() {
-    const scrolled = window.scrollY;
-    const total = document.body.scrollHeight - window.innerHeight;
-    bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
-  }
-  window.addEventListener('scroll', updateProgress, { passive: true });
-  updateProgress();
+  'use strict';
 
-  // replace copy button text with icon (runs after PaperMod adds buttons)
-  function patchCopyButtons() {
-    document.querySelectorAll('.copy-code-button').forEach(btn => {
-      btn.textContent = '';
-      btn.setAttribute('aria-label', 'Copy code');
+  /* ── reading progress ──
+     The previous version read document.body.scrollHeight inside the scroll
+     handler, forcing a synchronous layout on every event, and animated
+     `width`, which relayouts each frame. Metrics are cached here and the bar
+     is driven with a compositor-only transform inside rAF. */
+  var bar = document.getElementById('reading-progress');
+  if (bar) {
+    var max = 0, queued = false;
+
+    function measure() {
+      max = document.documentElement.scrollHeight - window.innerHeight;
+    }
+    function paint() {
+      queued = false;
+      var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      bar.style.transform = 'scaleX(' + p + ')';
+    }
+    function onScroll() {
+      if (!queued) { queued = true; requestAnimationFrame(paint); }
+    }
+
+    measure();
+    paint();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function () { measure(); paint(); }, { passive: true });
+    /* the page reflows once webfonts swap in */
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { measure(); paint(); });
+    }
+  }
+
+  /* ── table of contents ── */
+  var toc = document.querySelector('.toc-sidebar');
+  if (!toc) return;
+
+  /* Collapse the disclosure on the narrow layout, where it sits above the
+     article rather than beside it. Left open in the markup so it still works
+     with JS disabled. */
+  var box = toc.querySelector('.toc-box');
+  if (box && window.matchMedia('(max-width: 1100px)').matches) {
+    box.open = false;
+  }
+
+  var headings = Array.prototype.slice
+    .call(document.querySelectorAll('.post-content h2, .post-content h3'))
+    .filter(function (h) { return h.id; });
+
+  var links = {};
+  Array.prototype.forEach.call(toc.querySelectorAll('a[href^="#"]'), function (a) {
+    links[decodeURIComponent(a.getAttribute('href').slice(1))] = a;
+  });
+
+  if (!headings.length || !Object.keys(links).length) return;
+
+  /* The old handler toggled every link once per IntersectionObserver entry,
+     so with two headings on screen the second entry cleared the first one's
+     highlight. Track the visible set and resolve a single winner instead. */
+  var visible = Object.create(null);
+
+  function activate() {
+    var current = null;
+    for (var i = 0; i < headings.length; i++) {
+      if (visible[headings[i].id]) { current = headings[i].id; break; }
+    }
+    if (!current) {
+      /* nothing intersecting — fall back to the last heading scrolled past */
+      for (var j = 0; j < headings.length; j++) {
+        if (headings[j].getBoundingClientRect().top <= 100) current = headings[j].id;
+        else break;
+      }
+    }
+    for (var id in links) {
+      links[id].classList.toggle('active', id === current);
+    }
+  }
+
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) visible[e.target.id] = true;
+      else delete visible[e.target.id];
     });
-  }
-  // run immediately and again after a tick in case PaperMod is late
-  patchCopyButtons();
-  setTimeout(patchCopyButtons, 300);
+    activate();
+  }, { rootMargin: '-20% 0px -70% 0px' });
 
-  // active TOC on scroll
-  const headings = document.querySelectorAll('.post-content h2, .post-content h3');
-  const tocLinks  = document.querySelectorAll('.toc-sidebar a');
-  if (headings.length && tocLinks.length) {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          tocLinks.forEach(a => {
-            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
-          });
-        }
-      });
-    }, { rootMargin: '-20% 0px -70% 0px' });
-    headings.forEach(h => obs.observe(h));
-  }
+  headings.forEach(function (h) { obs.observe(h); });
 })();
 </script>
 

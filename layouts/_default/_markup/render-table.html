@@ -1,0 +1,34 @@
+{{- /*
+  Wrap every markdown table in a focusable horizontal scroll container.
+
+  Without this a wide table pushes the whole page sideways on a phone — the
+  `overflow-x: auto` in PaperMod's reset sits on the <table> itself, where it
+  has no effect, because overflow does not apply to display:table boxes.
+
+  tabindex="0" is what makes the overflow reachable without a mouse; a
+  scrollable region that cannot be focused cannot be scrolled from the
+  keyboard. role="region" + aria-label give that stop a name in the
+  accessibility tree rather than announcing a bare group.
+*/ -}}
+<div class="table-scroll" role="region" aria-label="Table" tabindex="0">
+  <table>
+    <thead>
+      <tr>
+        {{- range .THead }}
+        {{- range . }}
+        <th{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</th>
+        {{- end }}
+        {{- end }}
+      </tr>
+    </thead>
+    <tbody>
+      {{- range .TBody }}
+      <tr>
+        {{- range . }}
+        <td{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</td>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+</div>
