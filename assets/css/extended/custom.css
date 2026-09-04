@@ -17,40 +17,40 @@
    ═══════════════════════════════════════════ */
 
 :root {
-  /* surfaces */
-  --ak-bg: #f7f8f2;
-  --ak-bg2: #edf0e6;
-  --ak-surface: #e6ebdc;
-  --ak-border: #d2d9c5;
+  /* surfaces — --bg / --sunk / --raised / --line-mid on aukovien.com */
+  --ak-bg: #f2f2ec;
+  --ak-bg2: #e7e8df;
+  --ak-surface: #fafaf5;
+  --ak-border: #d6d8cb;
 
-  /* ink — ratios against --ak-bg */
-  --ak-text: #16210f;   /* 15.62:1 */
-  --ak-text2: #37452f;  /*  9.57:1 — body copy */
-  --ak-text3: #5c6b52;  /*  5.34:1 — meta, footer, TOC */
+  /* ink — --fg / --faded / --faded-dim */
+  --ak-text: #181b15;   /* 15.49:1 */
+  --ak-text2: #4e5347;  /*  7.05:1 — body copy */
+  --ak-text3: #63685a;  /*  5.11:1 — meta, footer, TOC */
 
-  /* accents */
-  --ak-link: #3f7a4a;      /* 4.80:1 */
-  --ak-link-hover: #2d5d36;
-  --ak-underline: #729976; /* 3.01:1 — must stay visible on its own */
-  --ak-accent: #886b16;    /* 4.73:1 — komorebi gold, darkened for paper */
-  --ak-code-ink: #3d7748;  /* 4.63:1 against --ak-bg2, not --ak-bg */
-  --ak-focus: #2d5d36;
+  /* accents — --amber / --amber-warm / --rust */
+  --ak-link: #1d5c4a;       /* 6.97:1 */
+  --ak-link-hover: #124134;
+  --ak-underline: #658f81;  /* 3.22:1 — muted --amber, not the hairline colour */
+  --ak-accent: #8a5a0c;     /* 5.27:1 */
+  --ak-code-ink: #1d5c4a;   /* 6.34:1 against --ak-bg2 */
+  --ak-focus: #124134;
 
   /* ambient wash behind the page */
-  --ak-glow-warm: rgba(136, 107, 22, 0.05);
-  --ak-glow-cool: rgba(63, 122, 74, 0.05);
+  --ak-glow-warm: rgba(138, 90, 12, 0.05);
+  --ak-glow-cool: rgba(29, 92, 74, 0.05);
 
   /* syntax — ratios against --ak-bg2 */
-  --ak-syn-comment: #5e7058;  /* 4.63:1 */
-  --ak-syn-keyword: #856711;  /* 4.61:1 */
-  --ak-syn-string: #2f7343;   /* 4.98:1 */
-  --ak-syn-func: #3c6a86;     /* 5.06:1 */
-  --ak-syn-number: #8c5a2b;   /* 5.04:1 */
-  --ak-syn-builtin: #256d63;  /* 5.28:1 */
-  --ak-syn-punct: #4a5a46;    /* 6.41:1 */
-  --ak-syn-error: #a33a3a;    /* 5.65:1 */
-  --ak-syn-add: #256b32;      /* 5.64:1 */
-  --ak-syn-del: #a33a3a;      /* 5.65:1 */
+  --ak-syn-comment: #5a6353;  /* 5.08:1 */
+  --ak-syn-keyword: #8a5a0c;  /* 4.79:1 */
+  --ak-syn-string: #1d5c4a;   /* 6.34:1 */
+  --ak-syn-func: #2a5f7a;     /* 5.64:1 */
+  --ak-syn-number: #8a5320;   /* 5.09:1 */
+  --ak-syn-builtin: #15665a;  /* 5.52:1 */
+  --ak-syn-punct: #4e5347;    /* 6.41:1 */
+  --ak-syn-error: #a13a33;    /* 5.37:1 */
+  --ak-syn-add: #22682f;      /* 5.50:1 */
+  --ak-syn-del: #a13a33;      /* 5.37:1 */
 
   /* type */
   --ak-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono",
@@ -69,35 +69,35 @@
    explicit light choice still wins, and so no-JS visitors still get dark. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ak-bg: #0c130c;
-    --ak-bg2: #111a11;
-    --ak-surface: #162116;
-    --ak-border: #2a3d2a;
+    --ak-bg: #12160f;
+    --ak-bg2: #0d100b;
+    --ak-surface: #1a2016;
+    --ak-border: #29321f;
 
-    --ak-text: #dce8dc;   /* 14.92:1 */
-    --ak-text2: #98b09a;  /*  8.09:1 */
-    --ak-text3: #6e896e;  /*  4.72:1 — was #607860 at 3.91:1, failed AA */
+    --ak-text: #e6e8de;   /* 14.78:1 */
+    --ak-text2: #bcc2b2;  /* 10.02:1 */
+    --ak-text3: #9aa18e;  /*  6.85:1 */
 
-    --ak-link: #6aaa72;      /* 6.83:1 */
-    --ak-link-hover: #9ecfa3;
-    --ak-underline: #4a7a52; /* 3.77:1 */
-    --ak-accent: #d4b86a;
-    --ak-code-ink: #9ecfa3;  /* 10.09:1 */
-    --ak-focus: #9ecfa3;
+    --ak-link: #74c6ab;       /* 9.07:1 */
+    --ak-link-hover: #9bd8c3;
+    --ak-underline: #44705f;  /* 3.25:1 */
+    --ak-accent: #eabc4e;     /* 10.29:1 */
+    --ak-code-ink: #74c6ab;   /* 9.50:1 against --ak-bg2 */
+    --ak-focus: #9bd8c3;
 
-    --ak-glow-warm: rgba(212, 184, 106, 0.07);
-    --ak-glow-cool: rgba(106, 170, 114, 0.05);
+    --ak-glow-warm: rgba(234, 188, 78, 0.06);
+    --ak-glow-cool: rgba(116, 198, 171, 0.05);
 
-    --ak-syn-comment: #7b8f79;  /*  5.13:1 — was #6e738d at 3.81:1 */
-    --ak-syn-keyword: #d4b86a;  /*  9.21:1 */
-    --ak-syn-string: #9ecfa3;   /* 10.09:1 */
-    --ak-syn-func: #bcd9c0;     /* 11.72:1 */
-    --ak-syn-number: #e0c48c;   /* 10.55:1 */
-    --ak-syn-builtin: #8fc9bd;  /*  9.54:1 */
-    --ak-syn-punct: #a8bfa9;    /*  9.06:1 */
-    --ak-syn-error: #e79b9b;    /*  8.10:1 */
-    --ak-syn-add: #8fd39a;      /* 10.13:1 */
-    --ak-syn-del: #e79b9b;      /*  8.10:1 */
+    --ak-syn-comment: #7d8a76;  /*  5.26:1 */
+    --ak-syn-keyword: #eabc4e;  /* 10.77:1 */
+    --ak-syn-string: #74c6ab;   /*  9.50:1 */
+    --ak-syn-func: #b9dccd;     /* 12.94:1 */
+    --ak-syn-number: #e3cf95;   /* 12.43:1 */
+    --ak-syn-builtin: #9bd8c3;  /* 11.86:1 */
+    --ak-syn-punct: #bcc2b2;    /* 10.49:1 */
+    --ak-syn-error: #e59a94;    /*  8.56:1 */
+    --ak-syn-add: #8fd39a;      /* 10.90:1 */
+    --ak-syn-del: #e59a94;      /*  8.56:1 */
 
     color-scheme: dark;
   }
@@ -106,35 +106,35 @@
 /* Explicit dark choice. Same specificity as the block above but later in
    source order, so the toggle wins in both directions. */
 :root[data-theme="dark"] {
-  --ak-bg: #0c130c;
-  --ak-bg2: #111a11;
-  --ak-surface: #162116;
-  --ak-border: #2a3d2a;
+  --ak-bg: #12160f;
+  --ak-bg2: #0d100b;
+  --ak-surface: #1a2016;
+  --ak-border: #29321f;
 
-  --ak-text: #dce8dc;
-  --ak-text2: #98b09a;
-  --ak-text3: #6e896e;
+  --ak-text: #e6e8de;   /* 14.78:1 */
+  --ak-text2: #bcc2b2;  /* 10.02:1 */
+  --ak-text3: #9aa18e;  /*  6.85:1 */
 
-  --ak-link: #6aaa72;
-  --ak-link-hover: #9ecfa3;
-  --ak-underline: #4a7a52;
-  --ak-accent: #d4b86a;
-  --ak-code-ink: #9ecfa3;
-  --ak-focus: #9ecfa3;
+  --ak-link: #74c6ab;       /* 9.07:1 */
+  --ak-link-hover: #9bd8c3;
+  --ak-underline: #44705f;  /* 3.25:1 */
+  --ak-accent: #eabc4e;     /* 10.29:1 */
+  --ak-code-ink: #74c6ab;   /* 9.50:1 against --ak-bg2 */
+  --ak-focus: #9bd8c3;
 
-  --ak-glow-warm: rgba(212, 184, 106, 0.07);
-  --ak-glow-cool: rgba(106, 170, 114, 0.05);
+  --ak-glow-warm: rgba(234, 188, 78, 0.06);
+  --ak-glow-cool: rgba(116, 198, 171, 0.05);
 
-  --ak-syn-comment: #7b8f79;
-  --ak-syn-keyword: #d4b86a;
-  --ak-syn-string: #9ecfa3;
-  --ak-syn-func: #bcd9c0;
-  --ak-syn-number: #e0c48c;
-  --ak-syn-builtin: #8fc9bd;
-  --ak-syn-punct: #a8bfa9;
-  --ak-syn-error: #e79b9b;
-  --ak-syn-add: #8fd39a;
-  --ak-syn-del: #e79b9b;
+  --ak-syn-comment: #7d8a76;  /*  5.26:1 */
+  --ak-syn-keyword: #eabc4e;  /* 10.77:1 */
+  --ak-syn-string: #74c6ab;   /*  9.50:1 */
+  --ak-syn-func: #b9dccd;     /* 12.94:1 */
+  --ak-syn-number: #e3cf95;   /* 12.43:1 */
+  --ak-syn-builtin: #9bd8c3;  /* 11.86:1 */
+  --ak-syn-punct: #bcc2b2;    /* 10.49:1 */
+  --ak-syn-error: #e59a94;    /*  8.56:1 */
+  --ak-syn-add: #8fd39a;      /* 10.90:1 */
+  --ak-syn-del: #e59a94;      /*  8.56:1 */
 
   color-scheme: dark;
 }
@@ -148,7 +148,12 @@
    come later in the bundle, so they win cleanly.
    ═══════════════════════════════════════════ */
 
-:root,
+/* `:root:root` is a deliberate specificity bump to (0,2,0). PaperMod emits a
+   <noscript> <style> that re-declares these same variables on plain :root —
+   and being inline in <head>, it lands after our stylesheet and would win at
+   equal specificity, leaving no-JS visitors on a dark system with neutral
+   grey code blocks on an olive page. */
+:root:root,
 :root[data-theme="dark"] {
   --theme: var(--ak-bg);
   --entry: var(--ak-surface);
@@ -173,7 +178,7 @@ body {
   position: relative;
 }
 
-/* Ambient komorebi wash. Fixed, so it paints once and does not repaint on
+/* Ambient wash, tinted with --rust and --amber. Fixed, so it paints once and does not repaint on
    scroll; pointer-events:none keeps it out of hit testing. */
 body::before {
   content: "";
@@ -543,9 +548,18 @@ pre:not(.highlight pre) {
 pre code {
   border: none;
   background: transparent;
-  color: var(--ak-text);
   font-size: 0.9em;
   line-height: 1.6;
+}
+
+/* PaperMod hardcodes `color: rgb(213, 213, 214)` on .md-content pre code —
+   a light grey that reads fine on the dark ground and is near-invisible on
+   the light one. Its specificity (0,1,2) outranks a bare `pre code` (0,0,2),
+   so the override has to be scoped the same way. Applies to unhighlighted
+   text in a block; Chroma spans set their own colour on top. */
+.post-content pre code,
+.md-content pre code {
+  color: var(--ak-text);
 }
 
 /* ── copy button ──
