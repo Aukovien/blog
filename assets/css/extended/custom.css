@@ -8,10 +8,12 @@
    remapped to our tokens in one place below, so the theme's ~57 .md-content
    rules inherit this palette without needing !important on every line.
 
-   Grounds are the blog's own — forest dark, sage light — but the token
-   roles follow aukovien.com's design guide: --ak-text is primary prose,
-   --ak-text3 is metadata only, --ak-link is structural, --ak-accent is the
-   identity accent. Accents are carried over from that palette directly.
+   This is the original komorebi palette. The ambient wash is part of it, so
+   contrast is verified twice: against the flat ground, and against the
+   ground composited under the brightest point of the wash where two glows
+   overlap. The wash alphas are capped by that second number — the original
+   0.07 gold pushed metadata to 4.38:1, under AA, which is what made body
+   text feel washed out.
 
    Every colour pair here is verified against WCAG 2.1 AA (4.5:1 for text,
    3:1 for non-text indicators) in both themes.
@@ -22,36 +24,42 @@
    ═══════════════════════════════════════════ */
 
 :root {
-  /* surfaces — sage paper, same hue family as the dark forest ground */
-  --ak-bg: #eef4f0;
-  --ak-bg2: #e2ece5;
-  --ak-surface: #f7fbf8;
-  --ak-border: #cadacf;
+  /* surfaces */
+  --ak-bg: #f7f8f2;
+  --ak-bg2: #edf0e6;
+  --ak-surface: #e6ebdc;
+  --ak-border: #d2d9c5;
 
-  /* ink — roles per aukovien.com's guide: fg = prose, faded-dim = metadata */
-  --ak-text: #181b15;   /* 15.61:1 */
-  --ak-text2: #414a3b;  /*  8.31:1 — body copy */
-  --ak-text3: #576050;  /*  5.90:1 — meta, footer, TOC */
+  /* ink — first ratio is the flat ground, second is under the brightest
+     point of the wash, where two glows overlap */
+  --ak-text: #16210f;   /* 15.62 / 14.39 */
+  --ak-text2: #37452f;  /*  9.57 /  8.82 — body copy */
+  --ak-text3: #5c6b52;  /*  5.34 /  4.92 — meta, footer, TOC */
 
   /* accents */
-  --ak-link: #1d5c4a;       /* 7.02:1 */
-  --ak-link-hover: #124134;  /* 10.28:1 */
-  --ak-underline: #649082;  /* 3.22:1 — muted link, not the hairline colour */
-  --ak-accent: #7d5410;     /* 5.98:1 */
-  --ak-code-ink: #1d5c4a;   /* 6.47:1 against --ak-bg2 */
-  --ak-focus: #124134;
+  --ak-link: #3d7748;       /* 5.00 / 4.61 */
+  --ak-link-hover: #2d5d36; /* 7.72 / 7.11 */
+  --ak-underline: #62916a;  /* 3.40 / 3.14 — muted link, stays visible alone */
+  --ak-accent: #816615;     /* 5.11 / 4.71 — komorebi gold, darkened for paper */
+  --ak-code-ink: #3d7748;   /* 4.63 against --ak-bg2 */
+  --ak-focus: #2d5d36;
 
-  /* syntax — ratios against --ak-bg2 */
-  --ak-syn-comment: #57604f;  /* 5.44:1 */
-  --ak-syn-keyword: #7d5410;  /* 5.52:1 */
-  --ak-syn-string: #1d5c4a;   /* 6.47:1 */
-  --ak-syn-func: #2a5f7a;     /* 5.76:1 */
-  --ak-syn-number: #814d1d;   /* 5.76:1 */
-  --ak-syn-builtin: #15665a;  /* 5.64:1 */
-  --ak-syn-punct: #414a3b;    /* 7.66:1 */
-  --ak-syn-error: #9c342d;    /* 5.90:1 */
-  --ak-syn-add: #1e6229;      /* 6.13:1 */
-  --ak-syn-del: #9c342d;      /* 5.90:1 */
+  /* komorebi wash — gentler here, because on paper it darkens the ground
+     rather than lifting it, which costs dark ink contrast instead of gaining */
+  --ak-glow-warm: rgba(129, 102, 21, 0.035);
+  --ak-glow-cool: rgba(61, 119, 72, 0.03);
+
+  /* syntax — against --ak-bg2, which is opaque, so the wash never reaches it */
+  --ak-syn-comment: #5e7058;  /* 4.63:1 */
+  --ak-syn-keyword: #856711;  /* 4.61:1 */
+  --ak-syn-string: #2f7343;   /* 4.98:1 */
+  --ak-syn-func: #3c6a86;     /* 5.06:1 */
+  --ak-syn-number: #8c5a2b;   /* 5.04:1 */
+  --ak-syn-builtin: #256d63;  /* 5.28:1 */
+  --ak-syn-punct: #4a5a46;    /* 6.41:1 */
+  --ak-syn-error: #a33a3a;    /* 5.65:1 */
+  --ak-syn-add: #256b32;      /* 5.64:1 */
+  --ak-syn-del: #a33a3a;      /* 5.65:1 */
   /* type */
   --ak-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono",
     Menlo, Consolas, monospace;
@@ -69,32 +77,35 @@
    explicit light choice still wins, and so no-JS visitors still get dark. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ak-bg: #16251a;
-    --ak-bg2: #0e1912;
-    --ak-surface: #1f3024;
-    --ak-border: #2f4936;
+    --ak-bg: #0c130c;
+    --ak-bg2: #111a11;
+    --ak-surface: #162116;
+    --ak-border: #2a3d2a;
 
-    --ak-text: #e6e8de;   /* 12.91:1 */
-    --ak-text2: #bcc2b2;  /*  8.75:1 */
-    --ak-text3: #9aa18e;  /*  5.99:1 */
+    --ak-text: #dce8dc;   /* 14.92 / 12.92 */
+    --ak-text2: #98b09a;  /*  8.09 /  7.01 */
+    --ak-text3: #749074;  /*  5.37 /  4.65 — was #607860, 3.91 flat and 3.4 under glow */
 
-    --ak-link: #74c6ab;       /* 7.92:1 */
-    --ak-link-hover: #9bd8c3;  /* 9.90:1 */
-    --ak-underline: #487a67;  /* 3.24:1 */
-    --ak-accent: #eabc4e;     /* 8.98:1 */
-    --ak-code-ink: #74c6ab;   /* 8.92:1 against --ak-bg2 */
-    --ak-focus: #9bd8c3;
+    --ak-link: #6aaa72;       /* 6.83 / 5.91 */
+    --ak-link-hover: #9ecfa3; /* 10.69 / 9.26 */
+    --ak-underline: #4a7a52;  /* 3.77 / 3.26 */
+    --ak-accent: #d4b86a;     /* 9.75 / 8.45 */
+    --ak-code-ink: #9ecfa3;   /* 10.09 against --ak-bg2 */
+    --ak-focus: #9ecfa3;
 
-    --ak-syn-comment: #7d8a76;  /*  4.95:1 */
-    --ak-syn-keyword: #eabc4e;  /* 10.12:1 */
-    --ak-syn-string: #74c6ab;   /*  8.92:1 */
-    --ak-syn-func: #b9dccd;     /* 12.16:1 */
-    --ak-syn-number: #e3cf95;   /* 11.68:1 */
-    --ak-syn-builtin: #9bd8c3;  /* 11.15:1 */
-    --ak-syn-punct: #bcc2b2;    /*  9.86:1 */
-    --ak-syn-error: #e59a94;    /*  8.04:1 */
-    --ak-syn-add: #8fd39a;      /* 10.25:1 */
-    --ak-syn-del: #e59a94;      /*  8.04:1 */
+    --ak-glow-warm: rgba(212, 184, 106, 0.055);
+    --ak-glow-cool: rgba(106, 170, 114, 0.045);
+
+    --ak-syn-comment: #7b8f79;  /*  5.13:1 */
+    --ak-syn-keyword: #d4b86a;  /*  9.21:1 */
+    --ak-syn-string: #9ecfa3;   /* 10.09:1 */
+    --ak-syn-func: #bcd9c0;     /* 11.72:1 */
+    --ak-syn-number: #e0c48c;   /* 10.55:1 */
+    --ak-syn-builtin: #8fc9bd;  /*  9.54:1 */
+    --ak-syn-punct: #a8bfa9;    /*  9.06:1 */
+    --ak-syn-error: #e79b9b;    /*  8.10:1 */
+    --ak-syn-add: #8fd39a;      /* 10.13:1 */
+    --ak-syn-del: #e79b9b;      /*  8.10:1 */
 
     color-scheme: dark;
   }
@@ -103,32 +114,35 @@
 /* Explicit dark choice. Same specificity as the block above but later in
    source order, so the toggle wins in both directions. */
 :root[data-theme="dark"] {
-  --ak-bg: #16251a;
-  --ak-bg2: #0e1912;
-  --ak-surface: #1f3024;
-  --ak-border: #2f4936;
+  --ak-bg: #0c130c;
+  --ak-bg2: #111a11;
+  --ak-surface: #162116;
+  --ak-border: #2a3d2a;
 
-  --ak-text: #e6e8de;   /* 12.91:1 */
-  --ak-text2: #bcc2b2;  /*  8.75:1 */
-  --ak-text3: #9aa18e;  /*  5.99:1 */
+  --ak-text: #dce8dc;   /* 14.92 / 12.92 */
+  --ak-text2: #98b09a;  /*  8.09 /  7.01 */
+  --ak-text3: #749074;  /*  5.37 /  4.65 — was #607860, 3.91 flat and 3.4 under glow */
 
-  --ak-link: #74c6ab;       /* 7.92:1 */
-  --ak-link-hover: #9bd8c3;  /* 9.90:1 */
-  --ak-underline: #487a67;  /* 3.24:1 */
-  --ak-accent: #eabc4e;     /* 8.98:1 */
-  --ak-code-ink: #74c6ab;   /* 8.92:1 against --ak-bg2 */
-  --ak-focus: #9bd8c3;
+  --ak-link: #6aaa72;       /* 6.83 / 5.91 */
+  --ak-link-hover: #9ecfa3; /* 10.69 / 9.26 */
+  --ak-underline: #4a7a52;  /* 3.77 / 3.26 */
+  --ak-accent: #d4b86a;     /* 9.75 / 8.45 */
+  --ak-code-ink: #9ecfa3;   /* 10.09 against --ak-bg2 */
+  --ak-focus: #9ecfa3;
 
-  --ak-syn-comment: #7d8a76;  /*  4.95:1 */
-  --ak-syn-keyword: #eabc4e;  /* 10.12:1 */
-  --ak-syn-string: #74c6ab;   /*  8.92:1 */
-  --ak-syn-func: #b9dccd;     /* 12.16:1 */
-  --ak-syn-number: #e3cf95;   /* 11.68:1 */
-  --ak-syn-builtin: #9bd8c3;  /* 11.15:1 */
-  --ak-syn-punct: #bcc2b2;    /*  9.86:1 */
-  --ak-syn-error: #e59a94;    /*  8.04:1 */
-  --ak-syn-add: #8fd39a;      /* 10.25:1 */
-  --ak-syn-del: #e59a94;      /*  8.04:1 */
+  --ak-glow-warm: rgba(212, 184, 106, 0.055);
+  --ak-glow-cool: rgba(106, 170, 114, 0.045);
+
+  --ak-syn-comment: #7b8f79;  /*  5.13:1 */
+  --ak-syn-keyword: #d4b86a;  /*  9.21:1 */
+  --ak-syn-string: #9ecfa3;   /* 10.09:1 */
+  --ak-syn-func: #bcd9c0;     /* 11.72:1 */
+  --ak-syn-number: #e0c48c;   /* 10.55:1 */
+  --ak-syn-builtin: #8fc9bd;  /*  9.54:1 */
+  --ak-syn-punct: #a8bfa9;    /*  9.06:1 */
+  --ak-syn-error: #e79b9b;    /*  8.10:1 */
+  --ak-syn-add: #8fd39a;      /* 10.13:1 */
+  --ak-syn-del: #e79b9b;      /*  8.10:1 */
 
   color-scheme: dark;
 }
@@ -173,6 +187,41 @@ body {
 
 .list {
   background: var(--ak-bg);
+}
+
+/* ── komorebi wash ──
+   Dappled light through leaves. position:fixed means it paints once and does
+   not repaint on scroll, and pointer-events:none keeps it out of hit testing.
+
+   Two things changed from the original. The alphas are capped so that even
+   where two glows overlap, every text pair still clears AA — the old 0.07
+   gold dropped metadata to 4.38:1. And the glows are weighted into the
+   margins rather than scattered across the middle: on a wide screen the
+   reading column is ~70ch and centred, so the light falls beside the text
+   instead of through it. The cap is what makes it safe at any width; the
+   placement is what makes it look intentional. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 260px 160px at  6%  8%, var(--ak-glow-warm) 0%, transparent 70%),
+    radial-gradient(ellipse 150px 200px at 92% 16%, var(--ak-glow-cool) 0%, transparent 70%),
+    radial-gradient(ellipse 120px 240px at 96% 56%, var(--ak-glow-warm) 0%, transparent 70%),
+    radial-gradient(ellipse 210px 120px at  7% 74%, var(--ak-glow-cool) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 140px at 50% 97%, var(--ak-glow-warm) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* A fixed, z-index:0 pseudo-element paints above normal-flow inline content,
+   so without these the wash would sit on top of the text rather than behind
+   it. Backgrounds stay transparent, so the light still shows through. */
+.header,
+.main,
+.footer {
+  position: relative;
+  z-index: 1;
 }
 
 /* ── skip link ── */
@@ -815,6 +864,13 @@ pre:hover .copy-code,
 /* ═══════════════════════════════════════════
    15. reduced motion
    ═══════════════════════════════════════════ */
+
+/* Some readers turn this on precisely to stop this kind of effect. */
+@media (prefers-reduced-transparency: reduce) {
+  body::before {
+    display: none;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,
