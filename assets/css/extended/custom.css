@@ -36,10 +36,6 @@
   --ak-code-ink: #1d5c4a;   /* 6.34:1 against --ak-bg2 */
   --ak-focus: #124134;
 
-  /* ambient wash behind the page */
-  --ak-glow-warm: rgba(138, 90, 12, 0.05);
-  --ak-glow-cool: rgba(29, 92, 74, 0.05);
-
   /* syntax — ratios against --ak-bg2 */
   --ak-syn-comment: #5a6353;  /* 5.08:1 */
   --ak-syn-keyword: #8a5a0c;  /* 4.79:1 */
@@ -85,9 +81,6 @@
     --ak-code-ink: #74c6ab;   /* 9.50:1 against --ak-bg2 */
     --ak-focus: #9bd8c3;
 
-    --ak-glow-warm: rgba(234, 188, 78, 0.06);
-    --ak-glow-cool: rgba(116, 198, 171, 0.05);
-
     --ak-syn-comment: #7d8a76;  /*  5.26:1 */
     --ak-syn-keyword: #eabc4e;  /* 10.77:1 */
     --ak-syn-string: #74c6ab;   /*  9.50:1 */
@@ -121,9 +114,6 @@
   --ak-accent: #eabc4e;     /* 10.29:1 */
   --ak-code-ink: #74c6ab;   /* 9.50:1 against --ak-bg2 */
   --ak-focus: #9bd8c3;
-
-  --ak-glow-warm: rgba(234, 188, 78, 0.06);
-  --ak-glow-cool: rgba(116, 198, 171, 0.05);
 
   --ak-syn-comment: #7d8a76;  /*  5.26:1 */
   --ak-syn-keyword: #eabc4e;  /* 10.77:1 */
@@ -175,23 +165,6 @@ body {
   background: var(--ak-bg);
   color: var(--ak-text2);
   font-family: var(--ak-sans);
-  position: relative;
-}
-
-/* Ambient wash, tinted with --rust and --amber. Fixed, so it paints once and does not repaint on
-   scroll; pointer-events:none keeps it out of hit testing. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 220px 140px at 10% 7%, var(--ak-glow-warm) 0%, transparent 70%),
-    radial-gradient(ellipse 120px 160px at 80% 14%, var(--ak-glow-cool) 0%, transparent 70%),
-    radial-gradient(ellipse 240px 110px at 55% 32%, var(--ak-glow-warm) 0%, transparent 70%),
-    radial-gradient(ellipse 90px 220px at 90% 62%, var(--ak-glow-cool) 0%, transparent 70%),
-    radial-gradient(ellipse 170px 90px at 22% 78%, var(--ak-glow-warm) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
 }
 
 .list {
@@ -200,7 +173,7 @@ body::before {
 
 /* ── skip link ── */
 .skip-link {
-  position: absolute;
+  position: fixed;
   left: 0.5rem;
   top: -100%;
   z-index: 10000;
@@ -229,20 +202,12 @@ body::before {
    4. header / nav
    ═══════════════════════════════════════════ */
 
+/* No blur or translucency here: the header is in normal flow and scrolls
+   away with the page, so there is never anything behind it to show through.
+   Both were costing a compositing layer for no visible effect. */
 .header {
-  background: var(--ak-bg); /* fallback if color-mix is unsupported */
-  background: color-mix(in srgb, var(--ak-bg) 88%, transparent);
-  backdrop-filter: blur(10px);
+  background: var(--ak-bg);
   border-bottom: 1px solid var(--ak-border);
-}
-
-/* backdrop-filter is re-evaluated every scroll frame; on small screens the
-   cost is least worth paying, so drop to an opaque bar there. */
-@media (max-width: 768px) {
-  .header {
-    background: var(--ak-bg);
-    backdrop-filter: none;
-  }
 }
 
 .logo a,
@@ -279,8 +244,6 @@ body::before {
 
 /* PaperMod caps .main at --main-width; we manage width per-layout instead. */
 .main {
-  position: relative;
-  z-index: 1;
   max-width: none;
 }
 
