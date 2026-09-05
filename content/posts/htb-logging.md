@@ -16,8 +16,8 @@ draft: false
 
 ## Machine Profile
 
-A Windows domain controller running a fairly realistic enterprise configuration.
-The attack surface involves services you'd expect to find in an actual AD environment
+A Windows domain controller running a fairly realistic enterprise configuration. The
+attack surface was made of services you'd expect to find in an actual AD environment
 rather than contrived CTF gimmicks, which is what made it interesting.
 
 ```text
@@ -30,13 +30,13 @@ Difficulty: Medium
 
 ## Reconnaissance
 
-Starting with a full TCP scan to map the full port surface before going narrow:
+I started with a full TCP scan to map the full port surface before going narrow:
 
 ```bash
 nmap -p- -sCV -T5 --open -oA scan/tcp_detailed <IP>
 ```
 
-The open ports tell you immediately this is a domain controller:
+The open ports told me immediately this was a domain controller:
 
 | Port | Service |
 |------|---------|
@@ -47,9 +47,9 @@ The open ports tell you immediately this is a domain controller:
 | 5985 | WinRM |
 | 8530 / 8531 | WSUS |
 
-The WSUS ports (8530/8531) stood out. Worth keeping in the back of your mind.
+The WSUS ports (8530/8531) stood out. I kept those in the back of my mind.
 
-Added the DC to `/etc/hosts` with its hostname and domain before proceeding,
+I added the DC to `/etc/hosts` with its hostname and domain before going further,
 since many AD tools resolve by name rather than IP.
 
 ---
